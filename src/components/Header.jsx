@@ -11,6 +11,9 @@ const Header = () => {
       <li>
         <NavLink to="/add-coffee">Add Coffee</NavLink>
       </li>
+      <li>
+        <NavLink to="/auth/signin">Sign In</NavLink>
+      </li>
     </>
   );
   return (

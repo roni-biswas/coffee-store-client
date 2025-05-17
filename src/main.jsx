@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { Component, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 
@@ -9,6 +9,9 @@ import AddCoffee from "./components/AddCoffee";
 import Loading from "./components/Loading";
 import UpdateCoffee from "./components/UpdateCoffee";
 import CoffeeDetails from "./components/CoffeeDetails";
+import AuthLayout from "./layouts/AuthLayout";
+import SingIn from "./components/singIn";
+import SignUp from "./components/signUp";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,20 @@ const router = createBrowserRouter([
           fetch(`http://localhost:8000/coffees/${params.id}`),
         Component: UpdateCoffee,
         hydrateFallbackElement: <Loading />,
+      },
+    ],
+  },
+  {
+    path: "auth",
+    Component: AuthLayout,
+    children: [
+      {
+        path: "/auth/signin",
+        Component: SingIn,
+      },
+      {
+        path: "/auth/signup",
+        Component: SignUp,
       },
     ],
   },
