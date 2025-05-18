@@ -10,10 +10,11 @@ import Loading from "./components/Loading";
 import UpdateCoffee from "./components/UpdateCoffee";
 import CoffeeDetails from "./components/CoffeeDetails";
 import AuthLayout from "./layouts/AuthLayout";
-import SingIn from "./components/singIn";
+import SingIn from "./components/SingIn";
 import SignUp from "./components/SignUp";
 import AuthProvider from "./provider/AuthProvider";
 import Users from "./components/Users";
+import PrivetRoute from "./provider/PrivetRoute";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
       },
       {
         path: "add-coffee",
-        Component: AddCoffee,
+        element: (
+          <PrivetRoute>
+            <AddCoffee />
+          </PrivetRoute>
+        ),
       },
       {
         path: "coffeeDetails/:id",

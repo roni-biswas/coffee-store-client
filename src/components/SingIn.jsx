@@ -1,16 +1,58 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
+import { AuthContext } from "../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const SingIn = () => {
+  const { signInUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    // sign in user
+    signInUser(email, password)
+      .then((res) => {
+        if (res.user) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "User Successfully Sign-In!",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          navigate(location.state || "/");
+        }
+      })
+      .catch((err) => {
+        console.log(err.code);
+      });
+  };
+
   return (
     <div className="card bg-base-100 max-w-sm mx-auto mt-12 shrink-0 shadow-2xl">
       <h2 className="text-2xl text-center">Sing In Account</h2>
       <div className="card-body">
-        <form className="fieldset">
+        <form onSubmit={handleSubmit} className="fieldset">
           <label className="label">Email</label>
-          <input type="email" className="input" placeholder="Email" />
+          <input
+            type="email"
+            name="email"
+            className="input"
+            placeholder="Email"
+          />
           <label className="label">Password</label>
-          <input type="password" className="input" placeholder="Password" />
+          <input
+            type="password"
+            name="password"
+            className="input"
+            placeholder="Password"
+          />
           <button type="submit" className="btn btn-neutral mt-4">
             Sign In
           </button>
