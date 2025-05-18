@@ -1,6 +1,7 @@
 import React, { use } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const { createUser } = use(AuthContext);
@@ -9,12 +10,33 @@ const SignUp = () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const { email, password } = Object.fromEntries(formData.entries());
+    const { email, password, ...userProfile } = Object.fromEntries(
+      formData.entries()
+    );
 
     // create user
     createUser(email, password)
-      .then((data) => {
-        console.log(data);
+      .then((result) => {
+        // save profile in the database
+        if (result.user) {
+          fetch("http://localhost:8000/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userProfile),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                Swal.fire({
+                  title: "User created Successfully!",
+                  icon: "success",
+                  draggable: true,
+                });
+              }
+            });
+        }
       })
       .catch((error) => {
         console.log(error.code);
@@ -26,8 +48,27 @@ const SignUp = () => {
       <h2 className="text-2xl text-center">Register Account</h2>
       <div className="card-body">
         <form onSubmit={handleSubmit} className="fieldset">
-          <label className="label">Name</label>
-          <input type="text" name="name" className="input" placeholder="Name" />
+          <label className="label">First Name</label>
+          <input
+            type="text"
+            name="first-name"
+            className="input"
+            placeholder="First name"
+          />
+          <label className="label">Last Name</label>
+          <input
+            type="text"
+            name="last-name"
+            className="input"
+            placeholder="Last name"
+          />
+          <label className="label">Phone Number</label>
+          <input
+            type="text"
+            name="phone-number"
+            className="input"
+            placeholder="Phone number"
+          />
           <label className="label">Email</label>
           <input
             type="email"
