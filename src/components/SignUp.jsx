@@ -1,20 +1,54 @@
-import React from "react";
+import React, { use } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../provider/AuthProvider";
 
 const SignUp = () => {
+  const { createUser } = use(AuthContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const { email, password } = Object.fromEntries(formData.entries());
+
+    // create user
+    createUser(email, password)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error.code);
+      });
+  };
+
   return (
     <div className="card bg-base-100 max-w-sm mx-auto mt-12 shrink-0 shadow-2xl">
       <h2 className="text-2xl text-center">Register Account</h2>
       <div className="card-body">
-        <form className="fieldset">
+        <form onSubmit={handleSubmit} className="fieldset">
           <label className="label">Name</label>
           <input type="text" name="name" className="input" placeholder="Name" />
           <label className="label">Email</label>
-          <input type="email" className="input" placeholder="Email" />
+          <input
+            type="email"
+            name="email"
+            className="input"
+            placeholder="Email"
+          />
           <label className="label">Password</label>
-          <input type="password" className="input" placeholder="Password" />
+          <input
+            type="password"
+            name="password"
+            className="input"
+            placeholder="Password"
+          />
           <label className="label">Photo URL</label>
-          <input type="text" className="input" placeholder="Photo URL" />
+          <input
+            type="text"
+            name="photo"
+            className="input"
+            placeholder="Photo URL"
+          />
           <button type="submit" className="btn btn-neutral mt-4">
             Sign Up
           </button>
