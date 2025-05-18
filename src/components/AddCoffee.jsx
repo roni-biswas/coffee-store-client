@@ -10,7 +10,7 @@ const AddCoffee = () => {
     console.log(newCoffee);
 
     // send coffee data to the db
-    fetch("http://localhost:8000/coffees", {
+    fetch("https://coffee-store-server-ivory-one.vercel.app/coffees", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

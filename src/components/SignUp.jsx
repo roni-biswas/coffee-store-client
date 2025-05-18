@@ -26,7 +26,7 @@ const SignUp = () => {
 
         // save profile in the database
         if (result.user) {
-          fetch("http://localhost:8000/users", {
+          fetch("https://coffee-store-server-ivory-one.vercel.app/users", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
