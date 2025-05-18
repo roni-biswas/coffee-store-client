@@ -11,8 +11,9 @@ import UpdateCoffee from "./components/UpdateCoffee";
 import CoffeeDetails from "./components/CoffeeDetails";
 import AuthLayout from "./layouts/AuthLayout";
 import SingIn from "./components/singIn";
-import SignUp from "./components/signUp";
+import SignUp from "./components/SignUp";
 import AuthProvider from "./provider/AuthProvider";
+import Users from "./components/Users";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,12 @@ const router = createBrowserRouter([
       {
         path: "/auth/signup",
         Component: SignUp,
+      },
+      {
+        path: "/auth/users",
+        loader: () => fetch("http://localhost:8000/users"),
+        Component: Users,
+        hydrateFallbackElement: <Loading />,
       },
     ],
   },

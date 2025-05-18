@@ -13,6 +13,9 @@ const Header = () => {
       <li>
         <NavLink to="/auth/signin">Sign In</NavLink>
       </li>
+      <li>
+        <NavLink to="/auth/users">User's</NavLink>
+      </li>
     </>
   );
   return (

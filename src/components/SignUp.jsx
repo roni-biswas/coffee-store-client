@@ -10,13 +10,20 @@ const SignUp = () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const { email, password, ...userProfile } = Object.fromEntries(
+    const { email, password, ...restFormData } = Object.fromEntries(
       formData.entries()
     );
 
     // create user
     createUser(email, password)
       .then((result) => {
+        const userProfile = {
+          email,
+          ...restFormData,
+          creationTime: result.user?.metadata?.creationTime,
+          lastSignInTime: result.user?.metadata?.lastSignInTime,
+        };
+
         // save profile in the database
         if (result.user) {
           fetch("http://localhost:8000/users", {
@@ -34,6 +41,7 @@ const SignUp = () => {
                   icon: "success",
                   draggable: true,
                 });
+                form.reset();
               }
             });
         }
